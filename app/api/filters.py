@@ -16,9 +16,11 @@ class DocumentFilter(FilterSet):
 
         should_have_annotations = not value
         if should_have_annotations:
-            queryset = queryset.filter(num_annotations__gte=1)
+            # "completed"
+            queryset = queryset.filter(annotations_approved_by__isnull=False)
         else:
-            queryset = queryset.filter(num_annotations__lte=0)
+            # "active"
+            queryset = queryset.filter(annotations_approved_by__isnull=True)
 
         return queryset
 
